@@ -2,6 +2,8 @@ from typing import Optional
 
 from fastapi import FastAPI
 
+from pydantic import BaseModel
+
 app=FastAPI()
 
 @app.get("/")
@@ -15,3 +17,16 @@ def greet():
 @app.get("/greet/{name}")
 def greet_name(name:str, age: Optional[int]= None):
     return {"Message":f"Good morning {name} and You are {age} years old."}
+
+class student(BaseModel):
+    name:str
+    age:int
+    grade:str
+
+@app.post("/student")
+def create_student(student:student):
+    return {
+        "name": student.name,
+        "age": student.age,
+        "grade": student.grade
+        }
